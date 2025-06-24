@@ -3,7 +3,7 @@ from werkzeug.security import generate_password_hash
 
 def setup_database():
     """Initialize the database and create default admin user"""
-    with app.app_context():
+    with ug.app_context():
         # Create all tables
         db.create_all()
         
