@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}{{ video.title }}{% endblock %}
+
+{% block content %}
+<div class="video-page">
+    <div class="video-player-section">
+        <div class="video-player">
+            <iframe 
+                src="https://www.youtube.com/embed/{{ video.youtube_url.split('v=')[-1] }}" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        
+        <div class="video-details">
+            <h1 class="video-title">{{ video.title }}</h1>
+            <div class="video-stats">
+                <span class="views">{{ video.views }} views</span>
+                <span class="category">{{ video.category }}</span>
+                <span class="date">{{ video.date_added.strftime('%B %d, %Y') }}</span>
+            </div>
+            <div class="video-description">
+                {{ video.description | replace('\n', '<br>') | safe }}
+            </div>
+        </div>
+    </div>
+
+    <div class="related-videos">
+        <h3>Related Videos</h3>
+        <div class="video-grid">
+            {% for related in related_videos %}
+            {% if related.id != video.id %}
+            <div class="video-card">
+                <a href="{{ url_for('video', id=related.id) }}">
+                    <div class="thumbnail">
+                        <img src="{{ related.thumbnail_url }}" alt="{{ related.title }}" onerror="this.src='https://via.placeholder.com/320x180?text=No+Image'">
+                    </div>
+                    <div class="video-info">
+                        <h3 class="title">{{ related.title }}</h3>
+                        <p class="views">{{ related.views }} views</p>
+                        <p class="category">{{ related.category }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

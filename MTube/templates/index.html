@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <h1>Welcome to MTube</h1>
+    <p>Your entertainment destination with curated content</p>
+</div>
+
+<div class="video-grid">
+    {% for video in videos %}
+    <div class="video-card">
+        <a href="{{ url_for('video', id=video.id) }}">
+            <div class="thumbnail">
+                <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}" onerror="this.src='https://via.placeholder.com/320x180?text=No+Image'">
+                <div class="duration">4:20</div>
+            </div>
+            <div class="video-info">
+                <h3 class="title">{{ video.title }}</h3>
+                <p class="views">{{ video.views }} views</p>
+                <p class="category">{{ video.category }}</p>
+                <p class="date">{{ video.date_added.strftime('%B %d, %Y') }}</p>
+            </div>
+        </a>
+    </div>
+    {% else %}
+    <div class="no-videos">
+        <h3>No videos available yet</h3>
+        <p>Admin needs to add some content first!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
